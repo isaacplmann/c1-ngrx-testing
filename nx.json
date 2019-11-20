@@ -1,0 +1,18 @@
+{
+  "npmScope": "c1-ngrx-testing",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "example-app-e2e": {
+      "tags": []
+    },
+    "example-app": {
+      "tags": []
+    }
+  }
+}
