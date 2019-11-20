@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@example-app/*": ["./apps/example-app/src/app/*"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
