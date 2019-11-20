@@ -3,7 +3,7 @@ import {
   createSelector,
   createFeatureSelector,
   combineReducers,
-  Action,
+  Action
 } from '@ngrx/store';
 import * as fromSearch from '@example-app/books/reducers/search.reducer';
 import * as fromBooks from '@example-app/books/reducers/books.reducer';
@@ -27,7 +27,7 @@ export function reducers(state: BooksState | undefined, action: Action) {
   return combineReducers({
     [fromSearch.searchFeatureKey]: fromSearch.reducer,
     [fromBooks.booksFeatureKey]: fromBooks.reducer,
-    [fromCollection.collectionFeatureKey]: fromCollection.reducer,
+    [fromCollection.collectionFeatureKey]: fromCollection.reducer
   })(state, action);
 }
 
@@ -86,7 +86,7 @@ export const {
   selectIds: selectBookIds,
   selectEntities: selectBookEntities,
   selectAll: selectAllBooks,
-  selectTotal: selectTotalBooks,
+  selectTotal: selectTotalBooks
 } = fromBooks.adapter.getSelectors(selectBookEntitiesState);
 
 export const selectSelectedBook = createSelector(
