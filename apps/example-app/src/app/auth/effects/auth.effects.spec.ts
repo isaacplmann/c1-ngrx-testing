@@ -14,6 +14,7 @@ import {
 import { Credentials, User } from '@example-app/auth/models';
 import { AuthService } from '@example-app/auth/services';
 import { AuthEffects } from '@example-app/auth/effects';
+import { Store } from '@ngrx/store';
 
 describe('AuthEffects', () => {
   let effects: AuthEffects;
@@ -54,13 +55,18 @@ describe('AuthEffects', () => {
   });
 
   describe('login$', () => {
-    it('should return an auth.loginSuccess action, with user information if login succeeds', () => {
+    it('should return an auth.loginSuccess action, with user information if login succeeds', done => {
       const credentials: Credentials = { username: 'test', password: '' };
       const user = { name: 'User' } as User;
       const action = LoginPageActions.login({ credentials });
       const completion = AuthApiActions.loginSuccess({ user });
 
-      // TODO
+      actions$ = of(action);
+      authService.login = jest.fn().mockReturnValue(of(user));
+      effects.login$.subscribe(outputAction => {
+        expect(outputAction).toMatchObject(completion);
+        done();
+      });
     });
 
     it('should return a new auth.loginFailure if the login service throws', () => {
