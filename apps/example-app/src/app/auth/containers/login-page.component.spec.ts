@@ -15,18 +15,21 @@ describe('Login Page', () => {
   let instance: LoginPageComponent;
 
   beforeEach(() => {
-    // TestBed.configureTestingModule({
-    //   imports: [
-    //     NoopAnimationsModule,
-    //     MatInputModule,
-    //     MatCardModule,
-    //     ReactiveFormsModule
-    //   ],
-    //   declarations: [LoginPageComponent, LoginFormComponent],
-    //   providers: []
-    // });
-    // fixture = TestBed.createComponent(LoginPageComponent);
-    // instance = fixture.componentInstance;
+    TestBed.configureTestingModule({
+      imports: [
+        NoopAnimationsModule,
+        MatInputModule,
+        MatCardModule,
+        ReactiveFormsModule
+      ],
+      declarations: [LoginPageComponent, LoginFormComponent],
+      providers: [provideMockStore()]
+    });
+    fixture = TestBed.createComponent(LoginPageComponent);
+    store = TestBed.get(Store);
+    instance = fixture.componentInstance;
+
+    spyOn(store, 'dispatch');
   });
 
   /**
@@ -44,13 +47,31 @@ describe('Login Page', () => {
    * to validate the rendered output and verify the component's output
    * against changes in state.
    */
-  it('should compile', () => {
-    // TODO
-    // fixture.detectChanges();
-    // expect(fixture).toMatchSnapshot();
+  it('should test the pending selector', () => {
+    store.overrideSelector(fromAuth.selectLoginPagePending, true);
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should test the error selector', () => {
+    store.overrideSelector(
+      fromAuth.selectLoginPageError,
+      'Danger, Will Robinson!'
+    );
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    store.overrideSelector(fromAuth.selectLoginPageError, 'Does not compute!');
+    store.refreshState();
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 
   it('should dispatch a login event on submit', () => {
-    // TODO
+    const credentials = { username: 'someone', password: 'somepass' };
+    instance.onSubmit(credentials);
+    const action = LoginPageActions.login({ credentials });
+
+    expect(store.dispatch).toBeCalledWith(action);
   });
 });
