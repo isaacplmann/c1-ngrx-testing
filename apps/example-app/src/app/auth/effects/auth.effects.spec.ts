@@ -54,13 +54,19 @@ describe('AuthEffects', () => {
   });
 
   describe('login$', () => {
-    it('should return an auth.loginSuccess action, with user information if login succeeds', () => {
+    it('should return an auth.loginSuccess action, with user information if login succeeds', done => {
       const credentials: Credentials = { username: 'test', password: '' };
       const user = { name: 'User' } as User;
       const action = LoginPageActions.login({ credentials });
       const completion = AuthApiActions.loginSuccess({ user });
 
-      // TODO
+      // testing by subscribing
+      actions$ = of(action);
+      authService.login = jest.fn().mockReturnValue(of(user));
+      effects.login$.subscribe(outputAction => {
+        expect(outputAction).toMatchObject(completion);
+        done();
+      });
     });
 
     it('should return a new auth.loginFailure if the login service throws', () => {
