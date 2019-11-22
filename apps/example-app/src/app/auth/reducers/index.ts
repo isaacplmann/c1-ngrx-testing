@@ -2,7 +2,7 @@ import {
   createSelector,
   createFeatureSelector,
   Action,
-  combineReducers,
+  combineReducers
 } from '@ngrx/store';
 import * as fromRoot from '@example-app/reducers';
 import * as fromAuth from '@example-app/auth/reducers/auth.reducer';
@@ -22,7 +22,7 @@ export interface State extends fromRoot.State {
 export function reducers(state: AuthState | undefined, action: Action) {
   return combineReducers({
     [fromAuth.statusFeatureKey]: fromAuth.reducer,
-    [fromLoginPage.loginPageFeatureKey]: fromLoginPage.reducer,
+    [fromLoginPage.loginPageFeatureKey]: fromLoginPage.reducer
   })(state, action);
 }
 
@@ -38,7 +38,10 @@ export const selectUser = createSelector(
   selectAuthStatusState,
   fromAuth.getUser
 );
-export const selectLoggedIn = createSelector(selectUser, user => !!user);
+export const selectLoggedIn = createSelector(
+  selectUser,
+  user => !!user
+);
 
 export const selectLoginPageState = createSelector(
   selectAuthState,
