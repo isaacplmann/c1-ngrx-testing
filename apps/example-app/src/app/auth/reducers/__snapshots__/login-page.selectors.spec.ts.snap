@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPageSelectors should test selectAuthState with input {"auth":{"loginPage":{"pending":false},"status":{"user":{"name":"someone"}}}} 1`] = `
+Object {
+  "loginPage": Object {
+    "error": undefined,
+    "pending": false,
+  },
+  "status": Object {
+    "user": Object {
+      "name": "someone",
+    },
+  },
+}
+`;
+
+exports[`LoginPageSelectors should test selectLoggedIn with input {"auth":{"loginPage":{"pending":false},"status":{"user":{"name":"someone"}}}} 1`] = `true`;
+
+exports[`LoginPageSelectors should test selectUser with input {"auth":{"loginPage":{"pending":false},"status":{"user":{"name":"someone"}}}} 1`] = `
+Object {
+  "name": "someone",
+}
+`;
