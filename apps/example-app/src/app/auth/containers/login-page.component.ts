@@ -14,7 +14,7 @@ import { LoginPageActions } from '@example-app/auth/actions';
     >
     </bc-login-form>
   `,
-  styles: [],
+  styles: []
 })
 export class LoginPageComponent implements OnInit {
   pending$ = this.store.pipe(select(fromAuth.selectLoginPagePending));

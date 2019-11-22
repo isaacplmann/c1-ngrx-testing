@@ -15,18 +15,21 @@ describe('Login Page', () => {
   let instance: LoginPageComponent;
 
   beforeEach(() => {
-    // TestBed.configureTestingModule({
-    //   imports: [
-    //     NoopAnimationsModule,
-    //     MatInputModule,
-    //     MatCardModule,
-    //     ReactiveFormsModule
-    //   ],
-    //   declarations: [LoginPageComponent, LoginFormComponent],
-    //   providers: []
-    // });
-    // fixture = TestBed.createComponent(LoginPageComponent);
-    // instance = fixture.componentInstance;
+    TestBed.configureTestingModule({
+      imports: [
+        NoopAnimationsModule,
+        MatInputModule,
+        MatCardModule,
+        ReactiveFormsModule
+      ],
+      declarations: [LoginPageComponent, LoginFormComponent],
+      providers: [provideMockStore()]
+    });
+    fixture = TestBed.createComponent(LoginPageComponent);
+    instance = fixture.componentInstance;
+    store = TestBed.get(Store);
+
+    spyOn(store, 'dispatch');
   });
 
   /**
@@ -44,13 +47,28 @@ describe('Login Page', () => {
    * to validate the rendered output and verify the component's output
    * against changes in state.
    */
-  it('should compile', () => {
-    // TODO
-    // fixture.detectChanges();
-    // expect(fixture).toMatchSnapshot();
+  it('should respond to changing selectors', () => {
+    store.overrideSelector(fromAuth.selectLoginPagePending, true);
+    store.overrideSelector(fromAuth.selectLoginPageError, undefined);
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+
+    store.overrideSelector(fromAuth.selectLoginPagePending, false);
+    store.overrideSelector(
+      fromAuth.selectLoginPageError,
+      'Danger, Will Robinson!'
+    );
+    store.refreshState();
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 
   it('should dispatch a login event on submit', () => {
-    // TODO
+    const credentials = { username: 'someone', password: 'pass' };
+    const action = LoginPageActions.login({ credentials });
+
+    instance.onSubmit(credentials);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });
