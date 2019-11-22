@@ -54,19 +54,35 @@ describe('AuthEffects', () => {
   });
 
   describe('login$', () => {
-    it('should return an auth.loginSuccess action, with user information if login succeeds', done => {
+    it('should return an auth.loginSuccess action, with user information if login succeeds', () => {
       const credentials: Credentials = { username: 'test', password: '' };
       const user = { name: 'User' } as User;
       const action = LoginPageActions.login({ credentials });
       const completion = AuthApiActions.loginSuccess({ user });
 
       // testing by subscribing
-      actions$ = of(action);
-      authService.login = jest.fn().mockReturnValue(of(user));
-      effects.login$.subscribe(outputAction => {
-        expect(outputAction).toMatchObject(completion);
-        done();
-      });
+      // actions$ = of(action);
+      // authService.login = jest.fn().mockReturnValue(of(user));
+      // effects.login$.subscribe(outputAction => {
+      //   expect(outputAction).toMatchObject(completion);
+      //   done();
+      // });
+
+      // testing with marbles
+      actions$ = hot('-a--', { a: action });
+      authService.login = jest.fn().mockReturnValue(cold('-b|', { b: user }));
+      expect(effects.login$).toBeObservable(hot('--c', { c: completion }));
+
+      /**
+       * -a--
+       *  -b|
+       * --c-
+       */
+
+      // hot observable - runs whether you subscribe to it or not
+      //   i.e. click events, actions$, web socket events, @Output (EventEmitters)
+      // cold observable - starts when something subscribes to it
+      //   i.e. network call with httpClient, of(), from()
     });
 
     it('should return a new auth.loginFailure if the login service throws', () => {
