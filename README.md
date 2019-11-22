@@ -5,7 +5,7 @@ Testing:
 - Container Components
   - login-page.component.spec.ts
 - Reducers
-  - login-page.reducer.spec.ts
+  - auth.reducer.spec.ts
 - Selectors
   - login-page.selectors.spec.ts
   - https://blog.angularindepth.com/how-i-test-my-ngrx-selectors-c50b1dc556bc
