@@ -24,13 +24,29 @@ describe('AuthReducer', () => {
 
   describe('LOGIN_SUCCESS', () => {
     it('should add a user set loggedIn to true in auth state', () => {
-      // TODO
+      const user = { name: 'test' };
+      const action = AuthApiActions.loginSuccess({ user });
+
+      const result = reducer(fromAuth.initialState, action);
+
+      expect(result).toMatchSnapshot();
     });
   });
 
   describe('LOGOUT', () => {
     it('should logout a user', () => {
-      // TODO
+      const action = AuthActions.logout();
+
+      const result = reducer(
+        {
+          user: {
+            name: 'Jeff Goldblum'
+          }
+        },
+        action
+      );
+
+      expect(result).toMatchSnapshot();
     });
   });
 });
